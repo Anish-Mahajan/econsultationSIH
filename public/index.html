@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eConsultation - Ministry of Corporate Affairs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-weight: bold;
+            color: #1e3c72;
+        }
+
+        .header-text h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .header-text p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .breadcrumb {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .page-title {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .page-title h1 {
+            color: #1e3c72;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .consultation-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .documents-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .section-title {
+            color: #1e3c72;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .document-item {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .document-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .document-header {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .document-title {
+            font-size: 1.2rem;
+            color: #1e3c72;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .document-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status.open {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status.closed {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .document-actions {
+            padding: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #007bff;
+            border: 2px solid #007bff;
+        }
+
+        .btn-outline:hover {
+            background: #007bff;
+            color: white;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .info-card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .info-card h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .comment-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            display: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #007bff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .footer {
+            background: #1e3c72;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: black;
+        }
+
+        @media (max-width: 768px) {
+            .consultation-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .page-title h1 {
+                font-size: 2rem;
+            }
+
+            .modal-content {
+                width: 95%;
+                margin: 2% auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">MCA</div>
+                <div class="header-text">
+                    <h1>Ministry of Corporate Affairs</h1>
+                    <p>Government of India</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="#">Home</a> > <a href="#">Additional Services</a> > <strong>eConsultation</strong>
+        </nav>
+
+        <div class="page-title">
+            <h1>eConsultation</h1>
+            <p>Public consultation on draft legislation and policy documents</p>
+        </div>
+
+        <div class="consultation-grid">
+            <div class="documents-section">
+                <h2 class="section-title">Draft Legislation & Documents</h2>
+                
+                <div class="document-item">
+                    <div class="document-header">
+                        <div class="document-title">Draft Companies (Amendment) Rules, 2024</div>
+                        <div class="document-meta">
+                            <span>Published: December 15, 2024</span>
+                            <span class="status open">Open for Comments</span>
+                        </div>
+                    </div>
+                    <div class="document-actions">
+                        <button class="btn btn-primary comment-btn" data-document="Draft Companies (Amendment) Rules, 2024">
+                            Submit Comment
+                        </button>
+                        <button class="btn btn-outline view-btn" data-document="Draft Companies (Amendment) Rules, 2024">View Document</button>
+                    </div>
+                </div>
+
+                <div class="document-item">
+                    <div class="document-header">
+                        <div class="document-title">Draft Corporate Social Responsibility Policy Guidelines</div>
+                        <div class="document-meta">
+                            <span>Published: November 28, 2024</span>
+                            <span class="status open">Open for Comments</span>
+                        </div>
+                    </div>
+                    <div class="document-actions">
+                        <button class="btn btn-primary comment-btn" data-document="Draft Corporate Social Responsibility Policy Guidelines">
+                            Submit Comment
+                        </button>
+                        <button class="btn btn-outline view-btn" data-document="Draft Corporate Social Responsibility Policy Guidelines">View Document</button>
+                    </div>
+                </div>
+
+                <div class="document-item">
+                    <div class="document-header">
+                        <div class="document-title">Draft Limited Liability Partnership (Amendment) Rules, 2024</div>
+                        <div class="document-meta">
+                            <span>Published: October 20, 2024</span>
+                            <span class="status closed">Comments Closed</span>
+                        </div>
+                    </div>
+                    <div class="document-actions">
+                        <button class="btn btn-outline view-btn" data-document="Draft Limited Liability Partnership (Amendment) Rules, 2024">View Document</button>
+                        <span style="color: #666; font-style: italic;">Comment period ended</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="info-card">
+                    <h3>How to Participate</h3>
+                    <ul class="info-list">
+                        <li>Review the draft document carefully</li>
+                        <li>Provide specific, constructive feedback</li>
+                        <li>Submit comments before the deadline</li>
+                        <li>Receive acknowledgment of submission</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Guidelines</h3>
+                    <ul class="info-list">
+                        <li>Comments should be relevant and specific</li>
+                        <li>Reference section numbers where applicable</li>
+                        <li>Provide rationale for suggestions</li>
+                        <li>Use professional language</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3>Contact Information</h3>
+                    <ul class="info-list">
+                        <li><strong>Email:</strong> econsultation@mca.gov.in</li>
+                        <li><strong>Phone:</strong> +91-11-23710738</li>
+                        <li><strong>Office Hours:</strong> 9:30 AM - 6:00 PM</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Comment Form Section -->
+        <div class="comment-section" id="commentSection">
+            <h2 class="section-title">Submit Your Comment</h2>
+            
+            <div id="alertContainer"></div>
+            
+            <form id="commentForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="stakeholderName">Name *</label>
+                        <input type="text" id="stakeholderName" name="stakeholderName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="stakeholderEmail">Email *</label>
+                        <input type="email" id="stakeholderEmail" name="stakeholderEmail" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="organization">Organization</label>
+                        <input type="text" id="organization" name="organization">
+                    </div>
+                    <div class="form-group">
+                        <label for="stakeholderType">Stakeholder Type *</label>
+                        <select id="stakeholderType" name="stakeholderType" required>
+                            <option value="">Select Type</option>
+                            <option value="Individual">Individual</option>
+                            <option value="Company">Company</option>
+                            <option value="Professional Body">Professional Body</option>
+                            <option value="Industry Association">Industry Association</option>
+                            <option value="NGO">NGO</option>
+                            <option value="Academic Institution">Academic Institution</option>
+                            <option value="Government Agency">Government Agency</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="documentTitle">Document *</label>
+                    <input type="text" id="documentTitle" name="documentTitle" readonly>
+                </div>
+
+                <div class="form-group">
+                    <label for="commentType">Comment Type *</label>
+                    <select id="commentType" name="commentType" required>
+                        <option value="">Select Comment Type</option>
+                        <option value="General Comment">General Comment</option>
+                        <option value="Specific Provision">Comment on Specific Provision</option>
+                        <option value="Addition Suggestion">Addition Suggestion</option>
+                        <option value="Deletion Suggestion">Deletion Suggestion</option>
+                        <option value="Modification Suggestion">Modification Suggestion</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="sectionReference">Section/Rule Reference (if applicable)</label>
+                    <input type="text" id="sectionReference" name="sectionReference" placeholder="e.g., Section 3(2), Rule 15">
+                </div>
+
+                <div class="form-group">
+                    <label for="commentText">Your Comment/Suggestion *</label>
+                    <textarea id="commentText" name="commentText" required placeholder="Please provide your detailed comment or suggestion here..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="rationale">Rationale/Justification</label>
+                    <textarea id="rationale" name="rationale" placeholder="Please explain the reasoning behind your comment..."></textarea>
+                </div>
+
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Submitting your comment...</p>
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 30px;">
+                    <button type="submit" class="btn btn-primary">Submit Comment</button>
+                    <button type="button" class="btn btn-outline" id="cancelBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Document Viewer Modal -->
+    <div id="documentModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="modalClose">&times;</span>
+            <h2 id="modalTitle">Document Title</h2>
+            <div id="modalContent">
+                <p>Loading document content...</p>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2025 Ministry of Corporate Affairs, Government of India. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Sample document content for demonstration
+        const documentContent = {
+            'Draft Companies (Amendment) Rules, 2024': {
+                content: `
+                    <h3>Draft Companies (Amendment) Rules, 2024</h3>
+                    <p><strong>Ministry of Corporate Affairs</strong></p>
+                    <p><strong>Publication Date:</strong> December 15, 2024</p>
+                    <p><strong>Comments Due:</strong> January 15, 2025</p>
+                    
+                    <h4>Section 1: Definitions</h4>
+                    <p>1.1 In these rules, unless the context otherwise requires, the following definitions shall apply:</p>
+                    <ul>
+                        <li><strong>"Act"</strong> means the Companies Act, 2013</li>
+                        <li><strong>"Board"</strong> means the Board of Directors of a company</li>
+                        <li><strong>"Company"</strong> means a company incorporated under this Act or under any previous company law</li>
+                    </ul>
+                    
+                    <h4>Section 2: Board Meetings</h4>
+                    <p>2.1 Every company shall hold a minimum number of Board meetings as prescribed:</p>
+                    <ul>
+                        <li>Listed companies: At least 4 meetings per year</li>
+                        <li>Other public companies: At least 4 meetings per year</li>
+                        <li>Private companies: At least 2 meetings per year</li>
+                    </ul>
+                    
+                    <h4>Section 3: Annual Return</h4>
+                    <p>3.1 Every company shall file its annual return within 60 days from the date of Annual General Meeting in Form MGT-7.</p>
+                    <p>3.2 The annual return shall contain details of:</p>
+                    <ul>
+                        <li>Members and their shareholding</li>
+                        <li>Board of Directors and Key Managerial Personnel</li>
+                        <li>Meetings of Board and Committees</li>
+                        <li>Remuneration of Directors and KMP</li>
+                    </ul>
+                    
+                    <p><em>This is a sample document content for demonstration purposes. The actual document would contain detailed legal provisions and amendments.</em></p>
+                `
+            },
+            'Draft Corporate Social Responsibility Policy Guidelines': {
+                content: `
+                    <h3>Draft Corporate Social Responsibility Policy Guidelines</h3>
+                    <p><strong>Ministry of Corporate Affairs</strong></p>
+                    <p><strong>Publication Date:</strong> November 28, 2024</p>
+                    <p><strong>Comments Due:</strong> December 28, 2024</p>
+                    
+                    <h4>1. Objective</h4>
+                    <p>To establish comprehensive guidelines for Corporate Social Responsibility activities and ensure effective implementation of Section 135 of the Companies Act, 2013.</p>
+                    
+                    <h4>2. Scope</h4>
+                    <p>These guidelines shall apply to companies meeting any of the following criteria:</p>
+                    <ul>
+                        <li>Net worth of Rs. 500 crore or more</li>
+                        <li>Turnover of Rs. 1000 crore or more</li>
+                        <li>Net profit of Rs. 5 crore or more</li>
+                    </ul>
+                    
+                    <h4>3. CSR Activities</h4>
+                    <p>3.1 Eligible CSR activities shall include:</p>
+                    <ul>
+                        <li>Education and healthcare</li>
+                        <li>Environmental sustainability</li>
+                        <li>Rural development projects</li>
+                        <li>Gender equality and women empowerment</li>
+                        <li>Disaster management and relief</li>
+                    </ul>
+                    
+                    <h4>4. Implementation</h4>
+                    <p>4.1 Companies shall spend at least 2% of average net profits of preceding three years on CSR activities.</p>
+                    <p>4.2 CSR committee shall monitor and review CSR policy implementation.</p>
+                    
+                    <p><em>This is a sample document content for demonstration purposes.</em></p>
+                `
+            },
+            'Draft Limited Liability Partnership (Amendment) Rules, 2024': {
+                content: `
+                    <h3>Draft Limited Liability Partnership (Amendment) Rules, 2024</h3>
+                    <p><strong>Ministry of Corporate Affairs</strong></p>
+                    <p><strong>Publication Date:</strong> October 20, 2024</p>
+                    <p><strong>Comments Period:</strong> Closed</p>
+                    
+                    <h4>Rule 1: Application</h4>
+                    <p>These rules shall apply to all Limited Liability Partnerships registered under the Limited Liability Partnership Act, 2008.</p>
+                    
+                    <h4>Rule 2: Registration Process</h4>
+                    <p>The registration of LLP shall follow the prescribed procedure with enhanced due diligence requirements.</p>
+                    
+                    <h4>Rule 3: Compliance Requirements</h4>
+                    <p>Every LLP shall comply with the following:</p>
+                    <ul>
+                        <li>File annual returns within prescribed time limits</li>
+                        <li>Maintain proper books of accounts</li>
+                        <li>Submit statement of accounts and solvency</li>
+                    </ul>
+                    
+                    <p><strong>Note:</strong> Comment period for this document has ended on November 20, 2024.</p>
+                    <p><em>This is a sample document content for demonstration purposes.</em></p>
+                `
+            }
+        };
+
+        // Initialize event listeners when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeEventListeners();
+        });
+
+        function initializeEventListeners() {
+            // Add event listeners for comment buttons
+            const commentButtons = document.querySelectorAll('.comment-btn');
+            commentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const documentTitle = this.getAttribute('data-document');
+                    openCommentForm(documentTitle);
+                });
+            });
+
+            // Add event listeners for view document buttons
+            const viewButtons = document.querySelectorAll('.view-btn');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const documentTitle = this.getAttribute('data-document');
+                    viewDocument(documentTitle);
+                });
+            });
+
+            // Modal close button
+            const modalClose = document.getElementById('modalClose');
+            if (modalClose) {
+                modalClose.addEventListener('click', closeDocumentModal);
+            }
+
+            // Cancel button
+            const cancelBtn = document.getElementById('cancelBtn');
+            if (cancelBtn) {
+                cancelBtn.addEventListener('click', closeCommentForm);
+            }
+
+            // Form submission
+            const commentForm = document.getElementById('commentForm');
+            if (commentForm) {
+                commentForm.addEventListener('submit', handleFormSubmission);
+            }
+
+            // Close modal when clicking outside of it
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('documentModal');
+                if (event.target === modal) {
+                    closeDocumentModal();
+                }
+            });
+
+            // Auto-resize textareas
+            document.querySelectorAll('textarea').forEach(textarea => {
+                textarea.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = this.scrollHeight + 'px';
+                });
+            });
+        }
+
+        function viewDocument(documentTitle) {
+            console.log('Opening document:', documentTitle);
+            const modal = document.getElementById('documentModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalTitle.textContent = documentTitle;
+            
+            if (documentContent[documentTitle]) {
+                modalContent.innerHTML = documentContent[documentTitle].content;
+            } else {
+                modalContent.innerHTML = `
+                    <p>Document content for "${documentTitle}" would be loaded here.</p>
+                    <p>In a real implementation, this would either:</p>
+                    <ul>
+                        <li>Load the document content from your server/database</li>
+                        <li>Embed a PDF viewer</li>
+                        <li>Show the document in an iframe</li>
+                        <li>Provide a download link to the actual document</li>
+                    </ul>
+                `;
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        function closeDocumentModal() {
+            document.getElementById('documentModal').style.display = 'none';
+        }
+
+        function openCommentForm(documentTitle) {
+            console.log('Opening comment form for:', documentTitle);
+            document.getElementById('documentTitle').value = documentTitle;
+            document.getElementById('commentSection').style.display = 'block';
+            document.getElementById('commentSection').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('alertContainer').innerHTML = '';
+        }
+
+        function closeCommentForm() {
+            document.getElementById('commentSection').style.display = 'none';
+            document.getElementById('commentForm').reset();
+            document.getElementById('alertContainer').innerHTML = '';
+        }
+
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alertClass = type === 'error' ? 'alert-error' : 'alert-success';
+            alertContainer.innerHTML = `
+                <div class="alert ${alertClass}">
+                    ${message}
+                </div>
+            `;
+        }
+
+        async function handleFormSubmission(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const submitButton = e.target.querySelector('button[type="submit"]');
+            
+            // Show loading state
+            loadingIndicator.style.display = 'block';
+            submitButton.disabled = true;
+            
+            // Collect form data
+            const formData = new FormData(e.target);
+            const commentData = {
+                stakeholderName: formData.get('stakeholderName'),
+                stakeholderEmail: formData.get('stakeholderEmail'),
+                organization: formData.get('organization'),
+                stakeholderType: formData.get('stakeholderType'),
+                documentTitle: formData.get('documentTitle'),
+                commentType: formData.get('commentType'),
+                sectionReference: formData.get('sectionReference'),
+                commentText: formData.get('commentText'),
+                rationale: formData.get('rationale'),
+                submissionDate: new Date().toISOString(),
+                status: 'submitted'
+            };
+
+            console.log('Sending data:', commentData);
+
+            try {
+                const response = await fetch('/api/comments', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(commentData)
+                });
+
+                console.log('Response status:', response.status);
+                const result = await response.json();
+                console.log('Response data:', result);
+
+                if (response.ok) {
+                    showAlert('Your comment has been successfully submitted! Thank you for your participation.', 'success');
+                    e.target.reset();
+                    setTimeout(() => {
+                        closeCommentForm();
+                    }, 3000);
+                } else {
+                    throw new Error(result.error || 'Failed to submit comment');
+                }
+            } catch (error) {
+                console.error('Error submitting comment:', error);
+                showAlert('There was an error submitting your comment. Please try again later.', 'error');
+            } finally {
+                loadingIndicator.style.display = 'none';
+                submitButton.disabled = false;
+            }
+        }
+
+        // Test API connection on page load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/api/test');
+                const result = await response.json();
+                console.log('API test result:', result);
+            } catch (error) {
+                console.error('API connection test failed:', error);
+            }
+        });
+    </script>
+</body>
+</html>
