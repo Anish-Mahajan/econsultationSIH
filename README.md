@@ -78,6 +78,7 @@ Create a `.env` file in the root directory and add:
 ```
 PORT=5000
 DB_URL=your_database_url
+NODE_ENV=development
 ```
 
 ### 4. Run the backend server
